@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xk.dao.TaskDao">
+	<resultMap id="ResultMap" type="com.xk.vo.Task">
+	<id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="bug" property="bug" jdbcType="VARCHAR" />
+    <result column="jhstarttime" property="jhstarttime" jdbcType="TIMESTAMP" />
+    <result column="jhendtime" property="jhendtime" jdbcType="TIMESTAMP" />
+    <result column="sjstarttime" property="sjstarttime" jdbcType="TIMESTAMP" />
+    <result column="sjendtime" property="sjendtime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="testerid" property="testerid" jdbcType="VARCHAR" />
+    <result column="projectid" property="projectid" jdbcType="VARCHAR" />
+	</resultMap>
+	
+  <sql id="Page_Where_Clause" >
+		SELECT 
+		  T.id,
+		  t.name,
+		  t.description,
+		  t.bug,
+		  t.jhstarttime,
+		  DATE_FORMAT(
+		    t.jhstarttime,
+		    '%Y-%c-%d %H:%i:%s'
+		  ) AS jhst,
+		    t.jhendtime,
+		  DATE_FORMAT(
+		    t.jhendtime,
+		    '%Y-%c-%d %H:%i:%s'
+		  ) AS jhet,
+		    t.sjstarttime,
+		  DATE_FORMAT(
+		    t.sjstarttime,
+		    '%Y-%c-%d %H:%i:%s'
+		  ) AS sjst,
+		    t.sjendtime,
+		  DATE_FORMAT(
+		    t.sjendtime,
+		    '%Y-%c-%d %H:%i:%s'
+		  ) AS sjet,
+		  t.state,
+		  t.userid,
+		  t.testerid,
+		  t.projectid,
+		  U.NAME USER,
+		  PU.NAME TESTER,
+		  P.NAME PROJECTNAME
+		FROM
+		  pm_task_tab T 
+		  LEFT JOIN pm_user_tab U 
+		    ON T.USERID = U.ID 
+		  LEFT JOIN pm_user_tab PU 
+		    ON T.TESTERID = PU.ID 
+		  LEFT JOIN pm_project_tab P 
+		    ON T.PROJECTID = P.ID 
+		    WHERE 1 = 1 
+		<if test="userid != null and userid != ''" >
+		    AND t.userid = #{userid}
+		</if>
+		<if test="projectid != null and projectid != ''" >
+		    AND t.projectid = #{projectid}
+		</if>
+		<if test="starttime != null and starttime != ''" >
+			<![CDATA[ AND t.jhstarttime >= STR_TO_DATE(#{starttime},'%Y-%c-%d %H:%i:%s') ]]> 
+		</if>
+		<if test="endtime != null and endtime != ''" >
+			<![CDATA[ AND t.jhstarttime <= STR_TO_DATE(#{endtime},'%Y-%c-%d %H:%i:%s') ]]> 
+		</if>
+		<if test="state != null" >
+	      <choose>
+		    <when test="state == 5">
+			    and t.sjendtime is null <!-- 未完成任务 -->
+		    </when>
+		    <when test="state == 6"><!-- 超时任务 -->
+			    and ((t.sjendtime > t.jhendtime) or (t.sjendtime is null and now() > t.jhendtime))
+		    </when>
+		    <otherwise>
+			    AND t.state = #{state}
+		  	</otherwise>
+		  </choose>
+		</if>
+		order by t.jhstarttime
+	</sql>
+	<select id="findTaskPageList" resultType="com.xk.vo.Task" parameterType="com.xk.vo.Task" >
+		<include refid="Page_Where_Clause" />
+	</select>
+  <select id="findTaskPageCount" resultType="int" parameterType="com.xk.vo.Task" >
+  		select count(*) num from (<include refid="Page_Where_Clause" />) t
+  </select>
+</mapper>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xk.dao.ATaskMapper" >
+  <resultMap id="BaseResultMap" type="com.xk.domain.ATask" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="bug" property="bug" jdbcType="VARCHAR" />
+    <result column="jhstarttime" property="jhstarttime" jdbcType="TIMESTAMP" />
+    <result column="jhendtime" property="jhendtime" jdbcType="TIMESTAMP" />
+    <result column="sjstarttime" property="sjstarttime" jdbcType="TIMESTAMP" />
+    <result column="sjendtime" property="sjendtime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="testerid" property="testerid" jdbcType="VARCHAR" />
+    <result column="projectid" property="projectid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, description, bug, jhstarttime, jhendtime, sjstarttime, sjendtime, state, 
+    userid, testerid, projectid
+  </sql>
+  <select id="getEchartdata" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  select count(*) count,state from pm_task_tab where month(jhstarttime)=#{value} GROUP BY state
+  
+  </select>
+  
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xk.domain.ATaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pm_task_tab
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pm_task_tab
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from pm_task_tab
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xk.domain.ATaskExample" >
+    delete from pm_task_tab
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xk.domain.ATask" >
+    insert into pm_task_tab (id, name, description, 
+      bug, jhstarttime, jhendtime, 
+      sjstarttime, sjendtime, state, 
+      userid, testerid, projectid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{bug,jdbcType=VARCHAR}, #{jhstarttime,jdbcType=TIMESTAMP}, #{jhendtime,jdbcType=TIMESTAMP}, 
+      #{sjstarttime,jdbcType=TIMESTAMP}, #{sjendtime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, 
+      #{userid,jdbcType=VARCHAR}, #{testerid,jdbcType=VARCHAR}, #{projectid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xk.domain.ATask" >
+    insert into pm_task_tab
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="bug != null" >
+        bug,
+      </if>
+      <if test="jhstarttime != null" >
+        jhstarttime,
+      </if>
+      <if test="jhendtime != null" >
+        jhendtime,
+      </if>
+      <if test="sjstarttime != null" >
+        sjstarttime,
+      </if>
+      <if test="sjendtime != null" >
+        sjendtime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="testerid != null" >
+        testerid,
+      </if>
+      <if test="projectid != null" >
+        projectid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="bug != null" >
+        #{bug,jdbcType=VARCHAR},
+      </if>
+      <if test="jhstarttime != null" >
+        #{jhstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jhendtime != null" >
+        #{jhendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sjstarttime != null" >
+        #{sjstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sjendtime != null" >
+        #{sjendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="testerid != null" >
+        #{testerid,jdbcType=VARCHAR},
+      </if>
+      <if test="projectid != null" >
+        #{projectid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xk.domain.ATaskExample" resultType="java.lang.Integer" >
+    select count(*) from pm_task_tab
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pm_task_tab
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bug != null" >
+        bug = #{record.bug,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jhstarttime != null" >
+        jhstarttime = #{record.jhstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jhendtime != null" >
+        jhendtime = #{record.jhendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sjstarttime != null" >
+        sjstarttime = #{record.sjstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sjendtime != null" >
+        sjendtime = #{record.sjendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testerid != null" >
+        testerid = #{record.testerid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectid != null" >
+        projectid = #{record.projectid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pm_task_tab
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      bug = #{record.bug,jdbcType=VARCHAR},
+      jhstarttime = #{record.jhstarttime,jdbcType=TIMESTAMP},
+      jhendtime = #{record.jhendtime,jdbcType=TIMESTAMP},
+      sjstarttime = #{record.sjstarttime,jdbcType=TIMESTAMP},
+      sjendtime = #{record.sjendtime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER},
+      userid = #{record.userid,jdbcType=VARCHAR},
+      testerid = #{record.testerid,jdbcType=VARCHAR},
+      projectid = #{record.projectid,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xk.domain.ATask" >
+    update pm_task_tab
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="bug != null" >
+        bug = #{bug,jdbcType=VARCHAR},
+      </if>
+      <if test="jhstarttime != null" >
+        jhstarttime = #{jhstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jhendtime != null" >
+        jhendtime = #{jhendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sjstarttime != null" >
+        sjstarttime = #{sjstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sjendtime != null" >
+        sjendtime = #{sjendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="testerid != null" >
+        testerid = #{testerid,jdbcType=VARCHAR},
+      </if>
+      <if test="projectid != null" >
+        projectid = #{projectid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xk.domain.ATask" >
+    update pm_task_tab
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      bug = #{bug,jdbcType=VARCHAR},
+      jhstarttime = #{jhstarttime,jdbcType=TIMESTAMP},
+      jhendtime = #{jhendtime,jdbcType=TIMESTAMP},
+      sjstarttime = #{sjstarttime,jdbcType=TIMESTAMP},
+      sjendtime = #{sjendtime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      userid = #{userid,jdbcType=VARCHAR},
+      testerid = #{testerid,jdbcType=VARCHAR},
+      projectid = #{projectid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

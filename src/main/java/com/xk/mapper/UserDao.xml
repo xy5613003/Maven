@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xk.dao.UserDao">
+	<resultMap id="BaseResultMap" type="com.xk.vo.User">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+		<result column="jianpin" property="jianpin" jdbcType="VARCHAR" />
+	</resultMap>
+	  <sql id="Page_Where_Clause" >
+    select id,username,name,pwd,memo from pm_user_tab
+    <if test="name != null and name != ''" >
+    	where username like '${name}'
+    		or name like '${name}'
+    		or pinyin like '${name}'
+    		or jianpin like '${name}'
+    </if>
+  </sql>
+	<select id="login" resultMap="BaseResultMap">
+		<if test="user!=null"></if>
+		select 
+		u.id,
+	  u.name,
+	  u.username,
+	  u.pwd,
+	  u.memo,
+	  pu.role,
+	  pu.projectid from   
+	  pm_user_tab u 
+	  join pm_pro_user_rel_tab pu 
+	    on u.id = pu.userid  where u.username=#{user.username} and
+		pu.projectid = #{user.projectid}
+	</select>
+	<select id="getByid" resultMap="BaseResultMap">
+	select * from pm_user_tab where id=#{value}
+	</select>
+	<update id="updateSelective" parameterType="com.xk.vo.User">
+	update pm_user_tab set pwd=#{pwd} where id=#{id}
+	</update>
+	<select id="getUserListByProjectId" resultType="com.xk.vo.User" parameterType="String">
+  	select 
+	  u.id,
+	  u.name,
+	  u.username,
+	  u.pwd,
+	  u.memo,
+	  pu.role
+	from
+	  pm_user_tab u 
+	  join pm_pro_user_rel_tab pu 
+	    on u.id = pu.userid 
+	where pu.projectid = #{projectid}
+  </select>
+ 
+  <select id="findUserPageList" resultType="com.xk.vo.User" parameterType="com.xk.vo.User" >
+  	<include refid="Page_Where_Clause" />
+  </select>
+  <select id="findUserPageCount" resultType="int" parameterType="com.xk.vo.User" >
+  		select count(*) num from (<include refid="Page_Where_Clause" />) t
+  </select>
+   <select id="getProjectTreeUser" resultType="com.xk.vo.ProjectTreeVo" parameterType="string" >
+  	select 
+	  pu.id,
+	  u.name,
+	  u.memo,
+	  pu.projectid parent,
+	  pu.role
+	from
+	  pm_user_tab u 
+	  join pm_pro_user_rel_tab pu 
+	    on u.id = pu.userid 
+	where pu.projectid = #{projectId}
+  </select>
+</mapper>
