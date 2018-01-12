@@ -15,9 +15,12 @@
 	</context:component-scan>
 	<aop:aspectj-autoproxy />
 	<aop:config proxy-target-class="true" />
-  <!-- 引入配置文件 -->
+  <!-- 引入配置文件  spring所有xml只能允许一个placeholderconfigurer 此设置等同于<context:property-placeholder/>,
+  如果要配置多个此bean 则需要设设置属性ignoreUnresolvablePlaceholders 为true 且order给个顺序优先级--> 
     <bean id="propertyConfigurer"
         class="com.xk.util.EncryptablePropertyPlaceholderConfigurer">
+      <!--   <property name="ignoreUnresolvablePlaceholders" value="true"></property>
+        <property name="order" value="0"></property> -->
         <property name="location" value="classpath:jdbc.properties" />
        <!--  <property name="locations">
            <list>

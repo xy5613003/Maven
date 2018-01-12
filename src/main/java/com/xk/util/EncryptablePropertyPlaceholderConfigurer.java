@@ -11,31 +11,46 @@ public class EncryptablePropertyPlaceholderConfigurer extends PropertyPlaceholde
 	
 	
 	
-    protected void processProperties(ConfigurableListableBeanFactory beanFactory, Properties props)  
-        throws BeansException {  
-            try {  
-                
-                String username = props.getProperty("username");  
-                if (username != null) {  
-                    props.setProperty("username", new String(EncUtil.decryptBASE64(username)));  
-                }  
-                  
-                String password = props.getProperty("password");  
-                if (password != null) {  
-                    props.setProperty("password", new String(EncUtil.decryptBASE64(password)));  
-                }  
-                  
-                String url = props.getProperty("url");  
-                if (url != null) {  
-                    props.setProperty("url", new String(EncUtil.decryptBASE64(url)));  
-                }  
-               
-                  
-                super.processProperties(beanFactory, props);  
-            } catch (Exception e) {  
-                e.printStackTrace();  
-                throw new BeanInitializationException(e.getMessage());  
-            }  
-        }
+//    protected void processProperties(ConfigurableListableBeanFactory beanFactory, Properties props)  
+//        throws BeansException {  
+//            try {  
+//                
+//                String username = props.getProperty("encrypted_username");  
+//                if (username != null) {  
+//                    props.setProperty("encrypted_username", new String(EncUtil.decryptBASE64(username)));  
+//                }  
+//                  
+//                String password = props.getProperty("encrypted_password");  
+//                if (password != null) {  
+//                    props.setProperty("encrypted_password", new String(EncUtil.decryptBASE64(password)));  
+//                }  
+//                  
+//                String url = props.getProperty("encrypted_url");  
+//                if (url != null) {  
+//                    props.setProperty("encrypted_url", new String(EncUtil.decryptBASE64(url)));  
+//                }  
+//               
+//                  
+//                super.processProperties(beanFactory, props);  
+//            } catch (Exception e) {  
+//                e.printStackTrace();  
+//                throw new BeanInitializationException(e.getMessage());  
+//            }  
+//        }
+ //方法2
+	@Override
+	protected String convertProperty(String propertyName, String propertyValue) {
+		if(propertyName.startsWith("encrypted")) {
+			try {
+				return new String(EncUtil.decryptBASE64(propertyValue));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return propertyValue;
+	}
 
 }
