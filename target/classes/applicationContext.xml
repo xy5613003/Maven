@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 	<!-- 自动扫描目录,注解必须  忽略掉@controller 注解的类以免2次扫描造成事务失效-->
-	<context:component-scan base-package="com.xk">
+	<context:component-scan base-package="com.xk" >
 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
 	</context:component-scan>
@@ -31,11 +31,11 @@
 	<!-- 配置数据源 bean 使用druid连接池咯 druid数据源 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		<property name="username" value="${username}"></property>
-		<property name="password" value="${password}"></property>
+		<property name="username" value="${encrypted_username}"></property>
+		<property name="password" value="${encrypted_password}"></property>
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url"
-			value="${url}"></property>
+			value="${encrypted_url}"></property>
 		<!-- amp转义&才可以多参数设置 -->
 		<!-- 初始化连接大小 -->
 		<property name="initialSize" value="1" />
