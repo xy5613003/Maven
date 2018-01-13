@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class table="t_teacher" name="com.xk.vo.Teacher" lazy="false">
+		<id name="t_id" column="t_id" type="integer">
+			<generator class="increment"></generator>
+		</id>
+		<property name="t_name" column="t_name" type="string"></property>
+		<property name="t_age" column="t_age" type="string"></property>
+		<property name="t_hiretime" column="t_hiretime" type="date"></property>
+		<property name="t_salary" column="t_salary" type="integer"></property>
+		<!--双向互联.如果只多对一则不需要配置set 双向可以通过老师查询学生的集合,不配置则无法查询  -->
+		<!--  <set name="stus" table="s_student" inverse="true" cascade="all">
+			<key>
+				<column name="s_teacherid"></column>
+			</key>
+			<one-to-many class="com.xk.vo.Student" />
+		</set>  -->
+
+	</class>
+</hibernate-mapping>

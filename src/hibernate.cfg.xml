@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/easy?characterEncoding=utf8</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">root</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+		<property name="show_sql">true</property>
+		<!-- 配置连接池提的供应商 -->
+		<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<!--  链接数据库最少数目-->
+		<property name="c3p0.min_size">5</property>
+		<property name="c3p0.max_size">20</property>
+		<!-- 连接池中的某个数据库处于空闲状态 超过timeout时间 从数据库中清除 -->
+		<property name="c3p0.timeout">120</property>
+		<!--每3000秒检查连接池中的空闲连接 以秒为单位  -->
+		<property name="c3p0.idle_test_period">3000</property>
+		
+		<!--设置自动提交  -->
+		<property name="connection.autocommit">true</property>
+		<mapping resource="com/xk/vo/user.hbm.xml" />
+		<mapping resource="com/xk/vo/student.hbm.xml" />
+		<mapping resource="com/xk/vo/teacher.hbm.xml" />
+	</session-factory>
+
+</hibernate-configuration>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE validators PUBLIC
+  		"-//Apache Struts//XWork Validator 1.0.3//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+  	 	<validators >
+  	 	
+  			<field name="user.username" >
+  				<field-validator type="requiredstring" short-circuit="true">
+  				<message >用户名不能为空</message>
+  				</field-validator>
+  				<field-validator type="regex">
+  				<param name="regexExpression">
+  				<![CDATA[([\w,\d]){1,12}]]>
+  				</param>
+  				<message>只能為12位以下的字母或数字</message>
+  				</field-validator>
+  			</field>
+  			<field name="user.password">
+  				<field-validator type="requiredstring">
+  				<message >密码不能为空</message>
+  				</field-validator>
+  			</field>
+  		<field name="repassword">
+  		<field-validator type="fieldexpression">
+  		<param name="expression"><![CDATA[(user.password==repassword)]]></param>
+  		<message>两次密码输入不一致!</message>
+  		</field-validator>
+  		</field>
+  		<field name="user.phone">
+  		<field-validator type="requiredstring" short-circuit="true">
+  		<message>请输入手机号码</message>
+  		</field-validator>
+  		<field-validator type="regex">
+  		<param name="regexExpression"><![CDATA[(\d{8,12})]]></param>
+  		<message>请输入正确的手机号码</message>
+  		</field-validator>
+  		</field>
+  		<field name="user.userpic">
+  		<field-validator type="requiredstring">
+  		<message>请上传头像</message>
+  		</field-validator>
+  		</field>
+  		<field name="user.email">
+  		<field-validator type="requiredstring" short-circuit="true">
+  		<message>请输入邮箱</message>
+  		</field-validator>
+  		<field-validator type="email">
+  		<message>请输入正确的邮箱</message>
+  		</field-validator>
+  		</field>
+  		<field name="user.userpic">
+  		<field-validator type="required">
+  		<message>请选择头像</message>
+  		</field-validator>
+  		
+  		</field>
+  		
+  		</validators>
+  		
+  	

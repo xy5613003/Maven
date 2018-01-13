@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class table="u_user" name="com.xk.vo.User" >
+
+<id column="user_id" name="userId" type="integer">
+	<generator class="increment"></generator>
+</id>
+<property name="username" column="username" type="string"></property>
+<property name="password" column="password" type="string"></property>
+<property name="authority" column="authority" type="string"></property>
+<property name="phone" column="phone" type="string"></property>
+<property name="email" column="email" type="string"></property>
+<property name="userpic" column="userpic" type="string"></property>
+</class>
+
+</hibernate-mapping>

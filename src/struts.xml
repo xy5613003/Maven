@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.custom.i18n.resources" value="message" />
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.multipart.maxSize" value="115343360"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.ObjectFactory" value="spring"></constant>
+	<package name="package1" extends="struts-default">
+		<action name="changelanguage" class="changeLanguage">
+			<result>/register.jsp</result>
+		</action>
+		<action name="userAction_login" class="userAction" method="login">
+			<result name="success">/index.jsp</result>
+			<result name="login">/login.jsp</result>
+		</action>
+	</package>
+	<package name="userPack" extends="json-default" namespace="/">
+		<interceptors>
+			<interceptor name="registerinterceptor"
+				class="com.xk.interceptor.Registerinterceptor"></interceptor>
+		</interceptors>
+
+		<action name="studentAction_queryAll" class="serviceAction"
+			method="queryAll">
+			<result name="queryAll" type="json">
+				<param name="root">map</param>
+			</result>
+		</action>
+<!-- 用户Action登录 -->
+		<action name="userAction_register" class="userAction" method="register">
+			<result type="json">
+				<param name="root">map</param>
+			</result>
+			<result name="input" type="json"><!-- 将返回的数据转换成json返回给ajax. -->
+				<param name="ignoreHierarchy">false</param><!-- 将继承的父级子集属性一起返 -->
+				<param name="includeProperties">fieldErrors\..+$</param>
+			</result>
+			
+			<result name="register" type="json">
+				<param name="root">map</param>
+			</result>
+			<!--  <interceptor-ref name="registerinterceptor"> <param name="includeMethods">register</param> 
+				</interceptor-ref> <interceptor-ref name="defaultStack" /> -->
+		</action>
+		<action name="userAction1_fileUpload" class="userAction"
+			method="fileUpload">
+			<result type="json">
+				<param name="root">map</param>
+			</result>
+			<result name="input" type="json"><!-- 将返回的数据转换成json返回给ajax. -->
+				<param name="ignoreHierarchy">false</param><!-- 将继承的父级子集属性一起返 -->
+				<param name="includeProperties">fieldErrors\..+$</param>
+			</result>
+			<interceptor-ref name="fileUpload"><!-- 使用Struts2默认的文件拦截器 对上传文件进行拦截 -->
+				<param name="maximumSize">1320000</param>
+				<param name="allowedExtensions">png,bmp,jpg,gif</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+	</package>
+</struts>

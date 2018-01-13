@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class table="s_student" name="com.xk.vo.Student"  >
+
+
+<id column="s_id" name="s_id" type="integer">
+	<generator class="increment"></generator>
+</id>
+<property name="s_name" column="s_name" type="string"></property>
+<property name="s_class" column="s_class" type="string"></property>
+<many-to-one name="s_teacherid" column="s_teacherid" class="com.xk.vo.Teacher" >
+</many-to-one>
+<property name="s_date" column="s_date" type="date"></property>
+<property name="s_education" column="s_education" type="string"></property>
+
+</class>
+
+</hibernate-mapping>
