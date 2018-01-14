@@ -15,8 +15,15 @@
 		<logback.version>1.2.3</logback.version>
 		<mybatis.version>3.4.5</mybatis.version>
 		<pinyin4j.version>2.5.1</pinyin4j.version>
+		<javax.servlet-api.version>4.0.0</javax.servlet-api.version>
 	</properties>
 	<dependencies>
+		<!-- servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet-api.version}</version>
+		</dependency>
 		<!-- gson 转json -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

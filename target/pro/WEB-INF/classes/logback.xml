@@ -11,7 +11,7 @@
 		<!-- 例如如果指定了日志输出级别为DEBUG，那么INFO、ERROR级别的log也会出现在日志文件。这种默认给程序的调
 		试带来了很多的麻烦。而在logback中可以通过appender中的filter来严格限制日志的输出级别： -->
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
-			<level>DEBUG</level>
+			<level>INFO</level>
 			<onMatch>ACCEPT</onMatch>
 			<onMismatch>DENY</onMismatch>
 		</filter>
