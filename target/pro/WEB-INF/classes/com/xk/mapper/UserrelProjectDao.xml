@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xk.dao.UserrelProjectDao">
+	 <update id="cancelLeader" parameterType="String" >
+  		UPDATE 
+		  pm_pro_user_rel_tab a 
+		SET
+		  a.role = 0 
+		WHERE a.projectid = #{projectid} 
+		  AND a.role = 2
+  </update>
+  <update id="setLeader" parameterType="String" >
+  		UPDATE 
+		  pm_pro_user_rel_tab 
+		SET
+		  role = 2
+		WHERE id = #{id} 
+  </update>
+</mapper>
