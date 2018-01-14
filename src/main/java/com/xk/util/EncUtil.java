@@ -121,6 +121,9 @@ public class EncUtil {
 	    }  
 	  public static void main(String[] args) throws Exception {
 		
+		 System.out.println(encryptBASE64("uAiqwVwjJ8-i".getBytes())); 
+		 System.out.println(new String(decryptBASE64("dUFpcXdWd2pKOC1p")));
+		  
 	  }
 	
 }
