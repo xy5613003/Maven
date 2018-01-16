@@ -19,33 +19,33 @@
   <sql id="Page_Where_Clause" >
 		SELECT 
 		  T.id,
-		  t.name,
-		  t.description,
-		  t.bug,
-		  t.jhstarttime,
+		  T.name,
+		  T.description,
+		  T.bug,
+		  T.jhstarttime,
 		  DATE_FORMAT(
-		    t.jhstarttime,
+		    T.jhstarttime,
 		    '%Y-%c-%d %H:%i:%s'
 		  ) AS jhst,
-		    t.jhendtime,
+		    T.jhendtime,
 		  DATE_FORMAT(
-		    t.jhendtime,
+		    T.jhendtime,
 		    '%Y-%c-%d %H:%i:%s'
 		  ) AS jhet,
-		    t.sjstarttime,
+		    T.sjstarttime,
 		  DATE_FORMAT(
-		    t.sjstarttime,
+		   T.sjstarttime,
 		    '%Y-%c-%d %H:%i:%s'
 		  ) AS sjst,
-		    t.sjendtime,
+		    T.sjendtime,
 		  DATE_FORMAT(
-		    t.sjendtime,
+		    T.sjendtime,
 		    '%Y-%c-%d %H:%i:%s'
 		  ) AS sjet,
-		  t.state,
-		  t.userid,
-		  t.testerid,
-		  t.projectid,
+		  T.state,
+		  T.userid,
+		  T.testerid,
+		  T.projectid,
 		  U.NAME USER,
 		  PU.NAME TESTER,
 		  P.NAME PROJECTNAME
